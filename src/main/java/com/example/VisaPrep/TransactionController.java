@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,14 @@ public class TransactionController {
     @GetMapping("/id")
     public Optional<Transaction> getTransactionById(@PathVariable Long id){
         return transactionRepository.findById(id);
+    }
+
+    @GetMapping("/costco-recent")
+    public Optional<Transaction> getRecentCostcoTransactions(@RequestParam(required = false) BigDecimal minAmount){
+        if(minAmount == null || minAmount.compareTo(BigDecimal.valueOf(100)) < 0)
+            minAmount = BigDecimal.valueOf(100);
+        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
+        return transactionRepository.findByAmountGreaterThanAndTimestampAfter(minAmount, thirtyDaysAgo);
     }
 
     @PostMapping

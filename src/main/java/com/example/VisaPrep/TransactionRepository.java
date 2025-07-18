@@ -11,5 +11,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     Optional<Transaction> findByIdempotencyKey(String IdempotencyKey);
 
-    List<Transaction> findByAmountGreaterThanAndTimestampAfter(BigDecimal amount, LocalDateTime timestamp);
+    Optional<Transaction> findByAmountGreaterThanAndTimestampAfter(BigDecimal amount, LocalDateTime timestamp);
 }
