@@ -1,5 +1,7 @@
-package com.example.VisaPrep;
+package com.example.VisaPrep.Controller;
 
+import com.example.VisaPrep.Transaction;
+import com.example.VisaPrep.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
