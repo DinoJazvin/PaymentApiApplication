@@ -1,12 +1,17 @@
 package com.example.VisaPrep.Security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.cglib.core.internal.Function;
 import org.springframework.stereotype.Component;
+
+import static java.security.KeyRep.Type.SECRET;
 
 @Component
 public class JwtUtil {
@@ -30,6 +35,29 @@ public class JwtUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(String.valueOf(SECRET));
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String extractSubject(String token) {

@@ -23,9 +23,9 @@ public class AuthController {
         // NOTE: Hardcoding a simple check for now:
         if ("costco".equals(username) && "secret".equals(password)) {
             String token = jwtUtil.generateToken(username);
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(token); //200 status
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //401 code
         }
     }
 }
