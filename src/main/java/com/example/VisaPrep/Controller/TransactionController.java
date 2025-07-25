@@ -29,6 +29,11 @@ public class TransactionController {
         return transactionRepository.findById(id);
     }
 
+    @GetMapping("/")
+    public List<Transaction> getTransactions() {
+        return transactionRepository.findAll();
+    }
+
     @GetMapping("/costco-recent")
     public Optional<Transaction> getRecentCostcoTransactions(@RequestParam(required = false) BigDecimal minAmount){
         if(minAmount == null || minAmount.compareTo(BigDecimal.valueOf(100)) < 0)
