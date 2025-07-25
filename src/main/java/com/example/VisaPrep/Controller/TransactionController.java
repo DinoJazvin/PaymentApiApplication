@@ -29,7 +29,7 @@ public class TransactionController {
         return transactionRepository.findById(id);
     }
 
-    @GetMapping("/transactions")
+    @GetMapping("/")
     public List<Transaction> getTransactions() {
         return transactionRepository.findAll();
     }
